@@ -1,6 +1,6 @@
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 #Retrieve the list of AZs in the current AWS region
@@ -116,35 +116,12 @@ resource "aws_nat_gateway" "nat_gateway" {
   }
 }
 
-# Create Security Group
-resource "aws_security_group" "web_sg" {
-  vpc_id = aws_vpc.vpc.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "web_sg"
-  }
-}
-
 resource "aws_instance" "web" {
   ami           = "ami-05b10e08d247fb927"
   instance_type = "t2.micro"
 
   subnet_id              = aws_subnet.public_subnets["public_subnet_1"].id
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = []
 
   tags = {
     Terraform = "true"

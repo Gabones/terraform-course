@@ -1,3 +1,5 @@
-terraform init
-terraform version
-terraform providers
+terraform -version
+terraform plan
+terraform apply
+#after deploy in us-west-2
+#terraform destroy
